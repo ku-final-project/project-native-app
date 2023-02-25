@@ -53,4 +53,6 @@ dependencies {
 
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
+
+    implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.1.0'
 }
