@@ -116,6 +116,7 @@ import java.util.Locale
 
     private fun sendData(input:String){
         m_serial?.write(input.toByteArray())
+        Toast.makeText(applicationContext, "sending $input via usb", Toast.LENGTH_SHORT).show()
         Log.i("Serial", "sending data" + input.toByteArray())
         println("sending data" + input.toByteArray())
     }
