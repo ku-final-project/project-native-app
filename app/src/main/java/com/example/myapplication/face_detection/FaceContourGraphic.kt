@@ -39,6 +39,8 @@ class FaceContourGraphic(
             face.boundingBox
         )
         canvas?.drawRect(rect, boxPaint)
+        println(face)
+        println(rect)
     }
 
     companion object {

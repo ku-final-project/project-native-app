@@ -3,7 +3,6 @@ package com.example.myapplication
 import android.Manifest
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -12,36 +11,19 @@ import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.video.Recorder
-import androidx.camera.video.Recording
-import androidx.camera.video.VideoCapture
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.example.myapplication.databinding.ActivityMainBinding
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import android.widget.Toast
-import androidx.camera.lifecycle.ProcessCameraProvider
 import android.util.Log
 import android.view.View
-import androidx.camera.core.*
-import androidx.camera.video.FallbackStrategy
-import androidx.camera.video.MediaStoreOutputOptions
-import androidx.camera.video.Quality
-import androidx.camera.video.QualitySelector
-import androidx.camera.video.VideoRecordEvent
-import androidx.core.content.PermissionChecker
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.ExperimentalGetImage
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.myapplication.camera.CameraManager
 import com.felhr.usbserial.UsbSerialDevice
 import com.felhr.usbserial.UsbSerialInterface
 import kotlinx.android.synthetic.main.activity_main.*
-import java.nio.ByteBuffer
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 @ExperimentalGetImage class MainActivity : AppCompatActivity() {
 
@@ -68,6 +50,7 @@ import java.util.Locale
         logout_button.setOnClickListener{
             val intent = Intent(this, MainActivity2::class.java)
             startActivity(intent)
+            Animatoo.animateSlideRight(this);
         }
         // Config button
         config_button.setOnClickListener{
@@ -118,7 +101,6 @@ import java.util.Locale
         m_serial?.write(input.toByteArray())
         Toast.makeText(applicationContext, "sending $input via usb", Toast.LENGTH_SHORT).show()
         Log.i("Serial", "sending data" + input.toByteArray())
-        println("sending data" + input.toByteArray())
     }
 
     private fun disconnect(){
