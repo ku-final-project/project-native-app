@@ -85,12 +85,6 @@ class Usb (private val context: Context, private val app: Context){
                             mSerial!!.setParity(UsbSerialInterface.PARITY_NONE)
                             mSerial!!.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF)
                             mSerial!!.read(mCallback)
-//                            try {
-//                                mSerial!!.read(mCallback)
-//                                Toast.makeText(app, "Read" + mSerial!!.read(mCallback), Toast.LENGTH_SHORT).show()
-//                            } catch (e: Exception) {
-//                                Toast.makeText(app, "Exception in read:" + e.message, Toast.LENGTH_SHORT).show()
-//                            }
                         }else{
                             Log.i("Serial", "port not open")
                         }
