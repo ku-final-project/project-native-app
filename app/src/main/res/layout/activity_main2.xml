@@ -10,9 +10,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="137dp"
-        android:layout_height="217dp"
-        android:layout_marginTop="128dp"
+        android:layout_width="193dp"
+        android:layout_height="285dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +32,7 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="wrap_content"
+        android:layout_width="340dp"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:ems="10"
@@ -44,7 +44,7 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="wrap_content"
+        android:layout_width="340dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:ems="10"

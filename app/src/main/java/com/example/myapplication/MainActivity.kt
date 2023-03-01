@@ -50,7 +50,7 @@ import kotlinx.android.synthetic.main.activity_main.*
         logout_button.setOnClickListener{
             val intent = Intent(this, MainActivity2::class.java)
             startActivity(intent)
-            Animatoo.animateSlideRight(this);
+            Animatoo.animateSlideRight(this)
         }
         // Config button
         config_button.setOnClickListener{
@@ -112,6 +112,7 @@ import kotlinx.android.synthetic.main.activity_main.*
             if (intent?.action!! == ACTION_USB_PERMISSION){
                 val granted: Boolean = intent.extras!!.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED)
                 if(granted){
+                    Toast.makeText(applicationContext, "permission granted", Toast.LENGTH_SHORT).show()
                     m_connection = m_usbManager.openDevice(m_device)
                     m_serial = UsbSerialDevice.createUsbSerialDevice(m_device, m_connection)
                     if (m_serial != null){
@@ -129,6 +130,7 @@ import kotlinx.android.synthetic.main.activity_main.*
                     }
                 } else{
                     Log.i("Serial", "permission not granted")
+                    Toast.makeText(applicationContext, "permission not granted", Toast.LENGTH_SHORT).show()
                 }
             } else if(intent.action == UsbManager.ACTION_USB_DEVICE_ATTACHED){
                 startUsbConnecting()

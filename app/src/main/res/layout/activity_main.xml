@@ -10,12 +10,13 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="350dp"
-        android:layout_height="500dp"
-        android:layout_marginTop="70dp"
+        android:layout_width="635dp"
+        android:layout_height="603dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/previewView_finder"
@@ -27,6 +28,7 @@
             android:id="@+id/graphicOverlay_finder"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </FrameLayout>
 
     <androidx.constraintlayout.widget.Guideline
