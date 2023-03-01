@@ -11,6 +11,8 @@ import android.util.Log
 import android.widget.Toast
 import com.felhr.usbserial.UsbSerialDevice
 import com.felhr.usbserial.UsbSerialInterface
+import java.io.UnsupportedEncodingException
+
 
 class Usb (private val context: Context, private val app: Context){
     lateinit var mUsbManager: UsbManager
@@ -55,21 +57,40 @@ class Usb (private val context: Context, private val app: Context){
         mSerial?.close()
     }
 
+    val mCallback: UsbSerialInterface.UsbReadCallback =
+        UsbSerialInterface.UsbReadCallback { arg0 ->
+            //Defining a Callback which triggers whenever data is read.
+            var data: String? = null
+            try {
+                data = String(arg0, Charsets.UTF_8)
+                println(data)
+            } catch (e: UnsupportedEncodingException) {
+                e.printStackTrace()
+            }
+        }
+
     val broadcastReceiver = object : BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action!! == ACTION_USB_PERMISSION){
                 val granted: Boolean = intent.extras!!.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED)
                 if(granted){
-                    Toast.makeText(app, "permission granted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(app, "usb permission granted", Toast.LENGTH_SHORT).show()
                     mConnection = mUsbManager.openDevice(mDevice)
                     mSerial = UsbSerialDevice.createUsbSerialDevice(mDevice, mConnection)
                     if (mSerial != null){
                         if(mSerial!!.open()){
-                            mSerial!!.setBaudRate(9600)
+                            mSerial!!.setBaudRate(115200)
                             mSerial!!.setDataBits(UsbSerialInterface.DATA_BITS_8)
                             mSerial!!.setStopBits(UsbSerialInterface.STOP_BITS_1)
                             mSerial!!.setParity(UsbSerialInterface.PARITY_NONE)
                             mSerial!!.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF)
+                            mSerial!!.read(mCallback)
+//                            try {
+//                                mSerial!!.read(mCallback)
+//                                Toast.makeText(app, "Read" + mSerial!!.read(mCallback), Toast.LENGTH_SHORT).show()
+//                            } catch (e: Exception) {
+//                                Toast.makeText(app, "Exception in read:" + e.message, Toast.LENGTH_SHORT).show()
+//                            }
                         }else{
                             Log.i("Serial", "port not open")
                         }
@@ -87,5 +108,4 @@ class Usb (private val context: Context, private val app: Context){
             }
         }
     }
-
 }
