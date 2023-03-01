@@ -1,18 +1,13 @@
 package com.example.myapplication
 
 import android.Manifest
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.hardware.usb.UsbDevice
-import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,22 +16,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.myapplication.camera.CameraManager
-import com.felhr.usbserial.UsbSerialDevice
-import com.felhr.usbserial.UsbSerialInterface
+import com.example.myapplication.usb.Usb
 import kotlinx.android.synthetic.main.activity_main.*
 
 @ExperimentalGetImage class MainActivity : AppCompatActivity() {
 
     // Camera manager
     private lateinit var cameraManager: CameraManager
+    // USB import class
+    private lateinit var usb: Usb
 
-    // USB device and Manager
-    lateinit var m_usbManager: UsbManager
-    var m_device: UsbDevice? = null
-    var m_serial: UsbSerialDevice? = null
-    var m_connection: UsbDeviceConnection? = null
-
-    val ACTION_USB_PERMISSION = "permission"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,88 +46,27 @@ import kotlinx.android.synthetic.main.activity_main.*
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://stackoverflow.com/questions/45535272/how-to-link-button-with-website-in-android-studio-using-kotlin"))
             startActivity(intent)
         }
-
+        // USB import class assign
+        createUsb()
         // USB
-        m_usbManager = getSystemService(Context.USB_SERVICE) as UsbManager
+        usb.mUsbManager = getSystemService(Context.USB_SERVICE) as UsbManager
         val filter = IntentFilter()
-        filter.addAction(ACTION_USB_PERMISSION)
+        filter.addAction(usb.ACTION_USB_PERMISSION)
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
-        registerReceiver(broadcastReceiver, filter)
+        registerReceiver(usb.broadcastReceiver, filter)
+        // Start connecting usb
+        usb.startUsbConnecting()
         // Send Serial
-        startUsbConnecting()
         serial_button.setOnClickListener{
-            sendData("unlock")
+            usb.sendData("unlock")
         }
     }
 
-    private fun startUsbConnecting(){
-        val usbDevices: HashMap<String, UsbDevice>? = m_usbManager.deviceList
-        if(!usbDevices?.isEmpty()!!){ // return true when not null and not empty
-            var keep = true
-            usbDevices.forEach{ entry ->
-                m_device = entry.value
-                val deviceVendorId: Int? = m_device?.vendorId
-                Log.i("Serial", "vendorId: $deviceVendorId")
-                if (deviceVendorId == 4292){ // https://github.com/mik3y/usb-serial-for-android/blob/master/usbSerialExamples/src/main/res/xml/device_filter.xml
-                    val intent: PendingIntent = PendingIntent.getBroadcast(this, 0, Intent(ACTION_USB_PERMISSION),0)
-                    m_usbManager.requestPermission(m_device, intent)
-                    keep = false
-                    Log.i("Serial", "connection successful")
-                } else{
-                    m_connection = null
-                    m_device = null
-                    Log.i("Serial", "unable to connect")
-                }
-                if (!keep){
-                    return
-                }
-            }
-        }
+    private fun createUsb(){
+        usb = Usb(this, applicationContext)
     }
 
-    private fun sendData(input:String){
-        m_serial?.write(input.toByteArray())
-        Toast.makeText(applicationContext, "sending $input via usb", Toast.LENGTH_SHORT).show()
-        Log.i("Serial", "sending data" + input.toByteArray())
-    }
-
-    private fun disconnect(){
-        m_serial?.close()
-    }
-
-    private val broadcastReceiver = object : BroadcastReceiver(){
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action!! == ACTION_USB_PERMISSION){
-                val granted: Boolean = intent.extras!!.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED)
-                if(granted){
-                    Toast.makeText(applicationContext, "permission granted", Toast.LENGTH_SHORT).show()
-                    m_connection = m_usbManager.openDevice(m_device)
-                    m_serial = UsbSerialDevice.createUsbSerialDevice(m_device, m_connection)
-                    if (m_serial != null){
-                        if(m_serial!!.open()){
-                            m_serial!!.setBaudRate(9600)
-                            m_serial!!.setDataBits(UsbSerialInterface.DATA_BITS_8)
-                            m_serial!!.setStopBits(UsbSerialInterface.STOP_BITS_1)
-                            m_serial!!.setParity(UsbSerialInterface.PARITY_NONE)
-                            m_serial!!.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF)
-                        }else{
-                            Log.i("Serial", "port not open")
-                        }
-                    } else{
-                        Log.i("Serial", "port is null")
-                    }
-                } else{
-                    Log.i("Serial", "permission not granted")
-                    Toast.makeText(applicationContext, "permission not granted", Toast.LENGTH_SHORT).show()
-                }
-            } else if(intent.action == UsbManager.ACTION_USB_DEVICE_ATTACHED){
-                startUsbConnecting()
-            } else if(intent.action == UsbManager.ACTION_USB_DEVICE_DETACHED){
-                disconnect()
-            }
-        }
-    }
 
     private fun checkForPermission() {
         if (allPermissionsGranted()) {
