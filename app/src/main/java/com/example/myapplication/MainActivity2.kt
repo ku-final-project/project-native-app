@@ -24,6 +24,9 @@ import kotlinx.android.synthetic.main.activity_main2.*
             }else{
                 Toast.makeText(applicationContext, "Invalid username or password", Toast.LENGTH_SHORT).show()
             }
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            Animatoo.animateSlideLeft(this);
         }
     }
 }

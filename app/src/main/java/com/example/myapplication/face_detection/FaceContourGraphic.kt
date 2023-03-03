@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.util.Log
 import com.example.myapplication.camera.GraphicOverlay
 import com.google.mlkit.vision.face.Face
 
@@ -39,8 +40,8 @@ class FaceContourGraphic(
             face.boundingBox
         )
         canvas?.drawRect(rect, boxPaint)
-        println(face)
-        println(rect)
+        Log.i("FGraphic", face.toString())
+        Log.i("FGraphic", rect.toString())
     }
 
     companion object {

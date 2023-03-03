@@ -53,6 +53,7 @@ import kotlinx.android.synthetic.main.activity_main.*
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://stackoverflow.com/questions/45535272/how-to-link-button-with-website-in-android-studio-using-kotlin"))
             startActivity(intent)
         }
+
         // USB import class assign --------------------------------------------------------------------------------------------
         createUsb()
         // USB
@@ -105,8 +106,7 @@ import kotlinx.android.synthetic.main.activity_main.*
             if (allPermissionsGranted()) {
                 cameraManager.startCamera()
             } else {
-                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
