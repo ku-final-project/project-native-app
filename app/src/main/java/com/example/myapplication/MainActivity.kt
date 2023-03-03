@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,9 +20,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.myapplication.api.ApiService
 import com.example.myapplication.camera.CameraManager
 import com.example.myapplication.usb.Usb
-import com.goebl.david.Webb
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONObject
 
 
 @ExperimentalGetImage class MainActivity : AppCompatActivity() {
@@ -77,30 +74,6 @@ import org.json.JSONObject
         createApiService()
 //        apiService.webbGetHello()
 //        apiService.webbPostImage(apiService.pic_base64(), "1")
-    }
-
-    private fun webbGetHello(){
-        val web = Webb.create()
-        val result = web.get("http://tawanchaiserver.ddns.net:8001/")
-            .ensureSuccess()
-            .asJsonObject()
-            .body
-        Log.i("Webb API", result.toString())
-    }
-
-    private fun webbPostImage(){
-        val web = Webb.create()
-        val result = web.post("http://tawanchaiserver.ddns.net:8001/upload")
-            .header("Content-Type", "application/json")
-            .body(
-                JSONObject(
-                    mapOf("pic" to "pic:base64","face_id" to "1")
-                ).toString()
-            )
-            .ensureSuccess()
-            .asJsonObject()
-            .body
-        Log.i("Webb API", result.toString())
     }
 
     private fun createUsb(){
