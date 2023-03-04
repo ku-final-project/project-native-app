@@ -20,7 +20,7 @@ import kotlin.math.max
 @ExperimentalGetImage class FaceContourDetectionProcessor(private val view: GraphicOverlay) :
     BaseImageAnalyzer<List<Face>>() {
 
-    val apiService = ApiService()
+    private val apiService = ApiService()
 
     private val realTimeOpts = FaceDetectorOptions.Builder()
         .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
@@ -58,9 +58,16 @@ import kotlin.math.max
         for(result in results){
             Log.i("FPro", result.toString())
         }
-        if (results.isNotEmpty()){
+        Log.i("result", results.isNotEmpty().toString())
+        if (results.isNotEmpty() && !sending){
+            sending = true
             croppedDetectedFace(bitmap!!, results)
+            Log.i("Sending1234", sending.toString() + results.isNotEmpty().toString())
+        }else if(results.isEmpty()){
+            sending = false
         }
+        Log.i("Sending", sending.toString())
+
         graphicOverlay.postInvalidate()
     }
 
@@ -78,11 +85,12 @@ import kotlin.math.max
             if(y + height > bitmap.height) bitmap.height - y else height
         )
 
-        Log.i("CroppedBase64", encodeImage(croppedBitmap).toString())
-        Log.i("OriginalBase64", encodeImage(bitmap).toString())
-
+//        Log.i("CroppedBase64", encodeImage(croppedBitmap).toString())
+//        Log.i("OriginalBase64", encodeImage(bitmap).toString())
         // Send API
-        apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
+        if(sending){
+            apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
+        }
     }
 
     private fun encodeImage(bm: Bitmap): String? {
@@ -98,6 +106,7 @@ import kotlin.math.max
 
     companion object {
         private const val TAG = "FaceDetectorProcessor"
+        private var sending = false
     }
 
 }
