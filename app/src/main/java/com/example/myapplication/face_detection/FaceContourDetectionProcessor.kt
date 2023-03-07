@@ -8,6 +8,7 @@ import androidx.camera.core.ExperimentalGetImage
 import com.example.myapplication.api.ApiService
 import com.example.myapplication.camera.BaseImageAnalyzer
 import com.example.myapplication.camera.GraphicOverlay
+import com.example.myapplication.usb.Usb
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
@@ -17,7 +18,7 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import kotlin.math.max
 
-@ExperimentalGetImage class FaceContourDetectionProcessor(private val view: GraphicOverlay) :
+@ExperimentalGetImage class FaceContourDetectionProcessor(private val view: GraphicOverlay, private val usb: Usb) :
     BaseImageAnalyzer<List<Face>>() {
 
     private val apiService = ApiService()
@@ -58,7 +59,6 @@ import kotlin.math.max
         for(result in results){
             Log.i("FPro", result.toString())
         }
-        Log.i("result", results.isNotEmpty().toString())
         if (results.isNotEmpty() && !sending){
             sending = true
             croppedDetectedFace(bitmap!!, results)
@@ -89,13 +89,17 @@ import kotlin.math.max
 //        Log.i("OriginalBase64", encodeImage(bitmap).toString())
         // Send API
         if(sending){
-            apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
+            val response = apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
+            Log.i("Response", response!!["status"].toString())
+            if(response!!["status"] as Boolean){
+                usb.sendData("unlock")
+            }
         }
     }
 
     private fun encodeImage(bm: Bitmap): String? {
         val byteStream = ByteArrayOutputStream()
-        bm.compress(Bitmap.CompressFormat.JPEG, 50, byteStream)
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, byteStream)
         val b = byteStream.toByteArray()
         return Base64.encodeToString(b, Base64.NO_WRAP)
     }

@@ -35,6 +35,21 @@ import kotlinx.android.synthetic.main.activity_main.*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        // USB import class assign --------------------------------------------------------------------------------------------
+        createUsb()
+        // USB
+        usb.mUsbManager = getSystemService(Context.USB_SERVICE) as UsbManager
+        val filter = IntentFilter()
+        filter.addAction(usb.ACTION_USB_PERMISSION)
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
+        registerReceiver(usb.broadcastReceiver, filter)
+        // Start connecting usb
+        usb.startUsbConnecting()
+        // Send Serial
+        serial_button.setOnClickListener{
+            usb.sendData("unlock")
+        }
         // Camera --------------------------------------------------------------------------------------------
         createCameraManager()
         checkForPermission()
@@ -54,21 +69,7 @@ import kotlinx.android.synthetic.main.activity_main.*
             startActivity(intent)
         }
 
-        // USB import class assign --------------------------------------------------------------------------------------------
-        createUsb()
-        // USB
-        usb.mUsbManager = getSystemService(Context.USB_SERVICE) as UsbManager
-        val filter = IntentFilter()
-        filter.addAction(usb.ACTION_USB_PERMISSION)
-        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
-        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
-        registerReceiver(usb.broadcastReceiver, filter)
-        // Start connecting usb
-        usb.startUsbConnecting()
-        // Send Serial
-        serial_button.setOnClickListener{
-            usb.sendData("unlock")
-        }
+
         // API Service--------------------------------------------------------------------------------------------
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -117,7 +118,8 @@ import kotlinx.android.synthetic.main.activity_main.*
             this,
             previewView_finder,
             this,
-            graphicOverlay_finder
+            graphicOverlay_finder,
+            usb
         )
     }
 
