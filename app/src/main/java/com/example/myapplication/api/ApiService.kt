@@ -13,7 +13,6 @@ class ApiService {
             .body
         Log.i("Webb API", result.toString())
     }
-
     fun webbPostImage(pic:String, face_id:String): JSONObject? {
         val web = Webb.create()
         val result = web.post("http://tawanchaiserver.ddns.net:8001/upload")
