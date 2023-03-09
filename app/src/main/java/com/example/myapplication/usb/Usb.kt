@@ -31,7 +31,7 @@ class Usb (private val context: Context, private val app: Context){
                 val deviceVendorId: Int? = mDevice?.vendorId
                 Log.i("Serial", "vendorId: $deviceVendorId")
                 if (deviceVendorId == 4292){ // https://github.com/mik3y/usb-serial-for-android/blob/master/usbSerialExamples/src/main/res/xml/device_filter.xml
-                    val intent: PendingIntent = PendingIntent.getBroadcast(context, 0, Intent(ACTION_USB_PERMISSION),0)
+                    val intent: PendingIntent = PendingIntent.getBroadcast(context, 0, Intent(ACTION_USB_PERMISSION),PendingIntent.FLAG_MUTABLE)
                     mUsbManager.requestPermission(mDevice, intent)
                     keep = false
                     Log.i("Serial", "connection successful")
