@@ -14,6 +14,10 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import kotlin.math.max
@@ -72,6 +76,7 @@ import kotlin.math.max
     }
 
     private fun croppedDetectedFace(bitmap: Bitmap, results: List<Face>){
+        val scope = CoroutineScope(Dispatchers.IO + CoroutineName("MyScope"))
         val rect = results[0].boundingBox
         val x = max(rect.left, 0)
         val y = max(rect.top, 0)
@@ -89,10 +94,12 @@ import kotlin.math.max
 //        Log.i("OriginalBase64", encodeImage(bitmap).toString())
         // Send API
         if(sending){
-            val response = apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
-            Log.i("Response", response!!["status"].toString())
-            if(response!!["status"] as Boolean){
-                usb.sendData("unlock")
+            scope.launch(Dispatchers.IO) {
+                val response = apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
+                Log.i("Response", response!!["status"].toString())
+                if(response!!["status"] as Boolean){
+                    usb.sendData("unlock")
+                }
             }
         }
     }

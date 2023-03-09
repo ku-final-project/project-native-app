@@ -4,7 +4,7 @@ import android.util.Log
 import com.goebl.david.Webb
 import org.json.JSONObject
 
-class ApiService {
+class ApiService{
     fun webbGetHello(){
         val web = Webb.create()
         val result = web.get("http://tawanchaiserver.ddns.net:8001/")
@@ -15,7 +15,7 @@ class ApiService {
     }
     fun webbPostImage(pic:String, face_id:String): JSONObject? {
         val web = Webb.create()
-        val result = web.post("http://tawanchaiserver.ddns.net:8001/upload")
+        val result = web.post("https://apiface.tawanchai.com/upload")
             .header("Content-Type", "application/json")
             .body(
                 JSONObject(
