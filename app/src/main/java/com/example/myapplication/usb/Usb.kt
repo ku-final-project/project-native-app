@@ -7,6 +7,7 @@ import android.content.Intent
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbManager
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import com.felhr.usbserial.UsbSerialDevice
@@ -49,8 +50,10 @@ class Usb (private val context: Context, private val app: Context){
 
     fun sendData(input:String){
         mSerial?.write(input.toByteArray())
-        // Toast.makeText(app, "sending $input via usb", Toast.LENGTH_SHORT).show()
+        Looper.prepare()
+        Toast.makeText(app, "sending $input via usb", Toast.LENGTH_SHORT).show()
         Log.i("Serial", "sending data" + input.toByteArray())
+        Looper.loop()
     }
     fun disconnect(){
         mSerial?.close()
