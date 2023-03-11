@@ -50,7 +50,9 @@ class Usb (private val context: Context, private val app: Context){
 
     fun sendData(input:String){
         mSerial?.write(input.toByteArray())
-        Looper.prepare()
+        if (Looper.myLooper() == null){
+            Looper.prepare()
+        }
         Toast.makeText(app, "sending $input via usb", Toast.LENGTH_SHORT).show()
         Log.i("Serial", "sending data" + input.toByteArray())
         Looper.loop()
