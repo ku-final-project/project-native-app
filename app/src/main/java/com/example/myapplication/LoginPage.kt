@@ -20,7 +20,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.myapplication.api.ApiService
 import com.example.myapplication.camera.CameraManager
 import com.example.myapplication.usb.Usb
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.login_page.*
 
 
 @ExperimentalGetImage class MainActivity : AppCompatActivity() {
@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.login_page)
         // USB import class assign --------------------------------------------------------------------------------------------
         createUsb()
         // USB
