@@ -50,18 +50,24 @@ import kotlin.math.max
     }
 
     override fun onSuccess(
-        results: List<Face>,
+        nonFilterresults: List<Face>,
         graphicOverlay: GraphicOverlay,
         rect: Rect,
         bitmap: Bitmap?
     ) {
         graphicOverlay.clear()
+        val results : MutableList<Face> = mutableListOf()
+        nonFilterresults.forEach{
+            if(it.boundingBox.width() > 100 && it.boundingBox.height() > 100){
+                results.add(it)
+            }
+        }
         results.forEach {
+            Log.i("Size_of_rect",it.boundingBox.height().toString());
+            Log.i("Size_of_rect",it.boundingBox.width().toString());
+            Log.i("FPro", it.toString())
             val faceGraphic = FaceContourGraphic(graphicOverlay, it, rect)
             graphicOverlay.add(faceGraphic)
-        }
-        for(result in results){
-            Log.i("FPro", result.toString())
         }
         if (results.isNotEmpty() && !sending){
             sending = true
