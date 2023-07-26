@@ -28,30 +28,45 @@
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/token" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/baseurlapi"
         android:layout_width="340dp"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
-        android:hint="@string/username"
+        android:hint="baseUrlAPI"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/eventid"
         android:layout_width="340dp"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="84dp"
         android:ems="10"
-        android:hint="@string/password"
+        android:hint="eventId"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/token"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="56dp"
+        android:ems="10"
+        android:hint="token"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/baseurlapi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
