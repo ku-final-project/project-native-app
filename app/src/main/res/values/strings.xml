@@ -7,6 +7,7 @@
     <string name="send_serial">Send\nSerial</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="api_uri">API Url</string>
-    <string name="token">token</string>
+    <string name="api_url">API Url</string>
+    <string name="token">Token</string>
+    <string name="event_id">Event ID</string>
 </resources>

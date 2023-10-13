@@ -100,11 +100,11 @@ import kotlin.math.max
         if(sending){
             scope.launch(Dispatchers.IO) {
                 Log.i("ImageSend", "send image to api url")
-//                val response = apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
-//                Log.i("Response", response!!["status"].toString())
-//                if(response!!["status"] as Boolean){
-//                    usb.sendData("unlock")
-//                }
+                val response = apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
+                Log.i("Response", response!!["status"].toString())
+                if(response!!["status"] as Boolean){
+                    usb.sendData("unlock")
+                }
             }
         }
     }
