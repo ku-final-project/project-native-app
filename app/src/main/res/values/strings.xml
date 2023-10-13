@@ -10,4 +10,5 @@
     <string name="api_url">API Url</string>
     <string name="token">Token</string>
     <string name="event_id">Event ID</string>
+    <string name="save">Save</string>
 </resources>
