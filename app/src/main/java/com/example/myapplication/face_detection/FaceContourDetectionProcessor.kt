@@ -72,11 +72,9 @@ import kotlin.math.max
         if (results.isNotEmpty() && !sending){
             sending = true
             croppedDetectedFace(bitmap!!, results)
-            Log.i("Sending1234", sending.toString() + results.isNotEmpty().toString())
         }else if(results.isEmpty()){
             sending = false
         }
-        Log.i("Sending", sending.toString())
 
         graphicOverlay.postInvalidate()
     }
@@ -101,11 +99,12 @@ import kotlin.math.max
         // Send API
         if(sending){
             scope.launch(Dispatchers.IO) {
-                val response = apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
-                Log.i("Response", response!!["status"].toString())
-                if(response!!["status"] as Boolean){
-                    usb.sendData("unlock")
-                }
+                Log.i("ImageSend", "send image to api url")
+//                val response = apiService.webbPostImage("data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(), "erk")
+//                Log.i("Response", response!!["status"].toString())
+//                if(response!!["status"] as Boolean){
+//                    usb.sendData("unlock")
+//                }
             }
         }
     }
