@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.usb.UsbManager
-import android.net.Uri
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
@@ -25,7 +24,6 @@ import kotlinx.android.synthetic.main.face_detection_page.graphicOverlay_finder
 import kotlinx.android.synthetic.main.face_detection_page.logout_button
 import kotlinx.android.synthetic.main.face_detection_page.previewView_finder
 import kotlinx.android.synthetic.main.face_detection_page.serial_button
-
 
 @ExperimentalGetImage class FaceDetectionPage : AppCompatActivity() {
 

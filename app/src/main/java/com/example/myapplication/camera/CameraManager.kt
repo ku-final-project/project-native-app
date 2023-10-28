@@ -63,7 +63,7 @@ import java.util.concurrent.Executors
     }
 
     private fun selectAnalyzer(): ImageAnalysis.Analyzer {
-        return FaceContourDetectionProcessor(graphicOverlay, usb)
+        return FaceContourDetectionProcessor(context, graphicOverlay, usb)
     }
 
     private fun setCameraConfig(
