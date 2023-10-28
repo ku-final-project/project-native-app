@@ -15,7 +15,7 @@ class ApiService{
     }
     fun webbPostImage(pic:String, face_id:String): JSONObject? {
         val web = Webb.create()
-        val result = web.post("https://apiface.tawanchai.com/upload")
+        val result = web.post("https://mock-ku-api.tawanchai-champ.workers.dev/upload")
             .header("Content-Type", "application/json")
             .body(
                 JSONObject(
