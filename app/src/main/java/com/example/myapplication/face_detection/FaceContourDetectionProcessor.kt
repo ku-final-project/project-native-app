@@ -25,6 +25,7 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import kotlin.math.max
@@ -163,16 +164,18 @@ class FaceContourDetectionProcessor(
                     "erk"
                 )
                 Log.i("Response", response!!["status"].toString())
-                authInfoTextView.text = "นายภราดร วัชรเสมากุล"
-                if (response["status"] as Boolean) {
-                    authStatusTextView.text = response["status"].toString()
-                    authStatusTextView.setTextColor(Color.parseColor("#008000"))
-                    authInfoTextView.setTextColor(Color.parseColor("#008000"))
-                    usb.sendData("unlock")
-                } else {
-                    authStatusTextView.text = response["status"].toString()
-                    authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
-                    authInfoTextView.setTextColor(Color.parseColor("#FF0000"))
+                withContext(Dispatchers.Main) {
+                    authInfoTextView.text = "นายภราดร วัชรเสมากุล"
+                    if (response["status"] as Boolean) {
+                        authStatusTextView.text = response["status"].toString()
+                        authStatusTextView.setTextColor(Color.parseColor("#008000"))
+                        authInfoTextView.setTextColor(Color.parseColor("#008000"))
+                        usb.sendData("unlock")
+                    } else {
+                        authStatusTextView.text = response["status"].toString()
+                        authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                        authInfoTextView.setTextColor(Color.parseColor("#FF0000"))
+                    }
                 }
             }
         }
