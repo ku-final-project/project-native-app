@@ -37,17 +37,16 @@
 
     <EditText
         android:id="@+id/apiUrlInput"
-        android:layout_width="340dp"
+        android:layout_width="500dp"
         android:layout_height="50dp"
+        android:layout_marginStart="36dp"
         android:ems="10"
         android:hint="@string/api_url"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.185"
+        app:layout_constraintVertical_bias="0.182"
         tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
 
     <TextView
@@ -65,29 +64,27 @@
 
     <EditText
         android:id="@+id/tokenInput"
-        android:layout_width="340dp"
+        android:layout_width="500dp"
         android:layout_height="50dp"
+        android:layout_marginStart="36dp"
         android:ems="10"
         android:hint="@string/token"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.343"
+        app:layout_constraintVertical_bias="0.337"
         tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
 
     <EditText
         android:id="@+id/eventIdInput"
-        android:layout_width="340dp"
+        android:layout_width="500dp"
         android:layout_height="50dp"
+        android:layout_marginStart="36dp"
         android:ems="10"
         android:hint="@string/event_id"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499"

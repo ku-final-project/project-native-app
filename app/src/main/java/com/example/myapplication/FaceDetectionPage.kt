@@ -52,6 +52,8 @@ import kotlinx.android.synthetic.main.face_detection_page.serial_button
         serial_button.setOnClickListener{
             usb.sendData("unlock")
         }
+        // API Service--------------------------------------------------------------------------------------------
+        createApiService()
         // Camera --------------------------------------------------------------------------------------------
         createCameraManager()
         checkForPermission()
@@ -72,12 +74,8 @@ import kotlinx.android.synthetic.main.face_detection_page.serial_button
             Animatoo.animateSlideLeft(this)
         }
 
-        // API Service--------------------------------------------------------------------------------------------
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
-        createApiService()
-//        apiService.webbGetHello()
-//        apiService.webbPostImage(apiService.pic_base64(), "1")
     }
 
     private fun createUsb(){
@@ -85,7 +83,7 @@ import kotlinx.android.synthetic.main.face_detection_page.serial_button
     }
 
     private fun createApiService(){
-        apiService = ApiService()
+        apiService = ApiService(this)
     }
 
     private fun checkForPermission() {
@@ -121,7 +119,8 @@ import kotlinx.android.synthetic.main.face_detection_page.serial_button
             previewView_finder,
             this,
             graphicOverlay_finder,
-            usb
+            usb,
+            apiService
         )
     }
 

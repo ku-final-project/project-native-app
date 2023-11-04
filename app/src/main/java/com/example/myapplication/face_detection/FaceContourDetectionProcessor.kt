@@ -35,11 +35,10 @@ import kotlin.math.max
 class FaceContourDetectionProcessor(
     private val context: Context,
     private val view: GraphicOverlay,
-    private val usb: Usb
+    private val usb: Usb,
+    private val api: ApiService
 ) :
     BaseImageAnalyzer<List<Face>>() {
-    private val apiService = ApiService()
-
     private val realTimeOpts = FaceDetectorOptions.Builder()
         .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
         .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
@@ -159,7 +158,7 @@ class FaceContourDetectionProcessor(
         if (sending) {
             scope.launch(Dispatchers.IO) {
                 Log.i("ImageSend", "send image to api url")
-                val response = apiService.webbPostImage(
+                val response = api.webbPostImage(
                     "data:image/jpeg;base64," + encodeImage(croppedBitmap).toString(),
                     "erk"
                 )

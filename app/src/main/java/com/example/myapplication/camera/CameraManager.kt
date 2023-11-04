@@ -7,6 +7,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.example.myapplication.api.ApiService
 import com.example.myapplication.face_detection.FaceContourDetectionProcessor
 import com.example.myapplication.usb.Usb
 import java.util.concurrent.ExecutorService
@@ -17,7 +18,8 @@ import java.util.concurrent.Executors
     private val finderView: PreviewView,
     private val lifecycleOwner: LifecycleOwner,
     private val graphicOverlay: GraphicOverlay,
-    private val usb: Usb
+    private val usb: Usb,
+    private val api: ApiService
 ) {
 
     private var preview: Preview? = null
@@ -63,7 +65,7 @@ import java.util.concurrent.Executors
     }
 
     private fun selectAnalyzer(): ImageAnalysis.Analyzer {
-        return FaceContourDetectionProcessor(context, graphicOverlay, usb)
+        return FaceContourDetectionProcessor(context, graphicOverlay, usb, api)
     }
 
     private fun setCameraConfig(
