@@ -12,7 +12,6 @@ import android.os.StrictMode.ThreadPolicy
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.ExperimentalGetImage
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
@@ -21,11 +20,10 @@ import com.example.myapplication.camera.CameraManager
 import com.example.myapplication.usb.Usb
 import kotlinx.android.synthetic.main.face_detection_page.config_button
 import kotlinx.android.synthetic.main.face_detection_page.graphicOverlay_finder
-import kotlinx.android.synthetic.main.face_detection_page.logout_button
 import kotlinx.android.synthetic.main.face_detection_page.previewView_finder
 import kotlinx.android.synthetic.main.face_detection_page.serial_button
 
-@ExperimentalGetImage class FaceDetectionPage : AppCompatActivity() {
+class FaceDetectionPage : AppCompatActivity() {
 
     // Camera manager
     private lateinit var cameraManager: CameraManager
@@ -61,15 +59,9 @@ import kotlinx.android.synthetic.main.face_detection_page.serial_button
         // hide actionBar and statusBar--------------------------------------------------------------------------------------------
         supportActionBar?.hide()
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        // Logout button
-        logout_button.setOnClickListener{
-            val intent = Intent(this, LoginPage::class.java)
-            startActivity(intent)
-            Animatoo.animateSlideRight(this)
-        }
         // Config button
         config_button.setOnClickListener{
-            val intent = Intent(this, ConfigPage::class.java)
+            val intent = Intent(this, PinPage::class.java)
             startActivity(intent)
             Animatoo.animateSlideLeft(this)
         }

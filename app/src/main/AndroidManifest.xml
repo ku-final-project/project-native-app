@@ -30,10 +30,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginPage"
+            android:name=".PinPage"
             android:exported="false" />
         <activity
             android:name=".ConfigPage"
+            android:exported="false" />
+        <activity
+            android:name=".ChangePinPage"
             android:exported="false" />
     </application>
 

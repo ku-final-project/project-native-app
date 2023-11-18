@@ -5,8 +5,12 @@
     <string name="config">Config</string>
     <string name="configuration">Configuration</string>
     <string name="send_serial">Send\nSerial</string>
-    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="password">Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="first_time_password">This is first time you use this app. Please set up a new pin.</string>
+    <string name="reset_password"><u>Change Password</u></string>
     <string name="api_url">API Url</string>
     <string name="token">Token</string>
     <string name="event_id">Event ID</string>
