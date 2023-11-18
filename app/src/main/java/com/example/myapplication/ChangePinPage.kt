@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.change_pin_page.*
 import kotlinx.android.synthetic.main.pin_page.back_button
 
 class ChangePinPage : AppCompatActivity() {
-    private lateinit var pin: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.change_pin_page)
