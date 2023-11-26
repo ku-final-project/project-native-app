@@ -27,6 +27,7 @@ class ApiService(private val context: Context){
         val web = Webb.create()
         val result = web.post(apiUrl)
             .header("Content-Type", "application/json")
+            .header("X-Api-Key", token)
             .body(
                 JSONObject(
                     mapOf("pic" to pic, "face_id" to face_id)
