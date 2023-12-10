@@ -17,10 +17,10 @@ class ApiService(private val context: Context){
         Log.i("Webb API", result.toString())
     }
     fun webbPostImage(pic:String, face_id:String): JSONObject? {
-        var config: SharedPreferences? = context.getSharedPreferences("config", AppCompatActivity.MODE_PRIVATE)
-        var apiUrl = config?.getString("API_URL", "")
-        var token = config?.getString("TOKEN", "")
-        var eventId = config?.getString("EVENT_ID", "")
+        val config: SharedPreferences? = context.getSharedPreferences("config", AppCompatActivity.MODE_PRIVATE)
+        val apiUrl = config?.getString("API_URL", "")
+        val token = config?.getString("TOKEN", "")
+        val eventId = config?.getString("EVENT_ID", "")
         Log.i("config", apiUrl!!)
         Log.i("config", token!!)
         Log.i("config", eventId!!)
