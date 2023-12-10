@@ -1,14 +1,20 @@
 package com.example.myapplication.face_detection
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
 import android.util.Base64
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
+import com.example.myapplication.R
 import com.example.myapplication.api.ApiService
 import com.example.myapplication.camera.BaseImageAnalyzer
 import com.example.myapplication.camera.GraphicOverlay
@@ -18,9 +24,10 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
+import kotlinx.android.synthetic.main.face_detection_page.action_request
+import kotlinx.android.synthetic.main.face_detection_page.arrow
 import kotlinx.android.synthetic.main.face_detection_page.auth_info
 import kotlinx.android.synthetic.main.face_detection_page.auth_status
-import kotlinx.android.synthetic.main.face_detection_page.action_request
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,11 +36,12 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import kotlin.math.max
+import kotlin.random.Random
 
 
 @ExperimentalGetImage
 class FaceContourDetectionProcessor(
-    private val context: Context,
+    context: Context,
     private val view: GraphicOverlay,
     private val usb: Usb,
     private val api: ApiService
@@ -48,9 +56,13 @@ class FaceContourDetectionProcessor(
     private val detector = FaceDetection.getClient(realTimeOpts)
 
     private val ctx = context as Activity
+    private val window = ctx.window
     private val authStatusTextView: TextView = ctx.auth_status
     private val authInfoTextView: TextView = ctx.auth_info
     private val actionRequest: TextView = ctx.action_request
+    private val arrowImage: ImageView = ctx.arrow
+
+    private var lastFaceDetectedTime: Long = 0
 
     override val graphicOverlay: GraphicOverlay
         get() = view
@@ -89,21 +101,44 @@ class FaceContourDetectionProcessor(
         }
         Log.i("FaceResults:", results.toString())
         Log.i("FaceResults:", results.size.toString())
+        val config: SharedPreferences? = ctx.getSharedPreferences("config", AppCompatActivity.MODE_PRIVATE)
+        val delaySleepTime = config?.getString("DELAY_SLEEP_TIME", "0")
+        if (results.isEmpty()) {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastFaceDetectedTime > delaySleepTime?.toInt()!! *1000) {
+                adjustScreenBrightness(0f)
+            }
+        } else {
+            lastFaceDetectedTime = System.currentTimeMillis()
+            adjustScreenBrightness(0.1f)
+        }
 
         // normal face detect
         if (results.isNotEmpty() && !sending && (results[0].smilingProbability ?: 0f) < 0.9f) {
             isNormal = true
         }
 
-        // normal face detected and will request shake
+        val shakeTimes = config?.getString("SHAKE_TIMES", "0")
+        Log.i("config", shakeTimes.toString())
+        // normal face detected and will request shake for SHAKE_TIMES
+        Log.i("shake times", isShake.toString())
+        Log.i("shake times", shouldRandom.toString())
+
         if (results.isNotEmpty() && !sending && isNormal) {
-            actionRequest.text = "กรุณาส่ายหน้า"
-            isShake = checkFaceShake(results[0])
+            Log.i("shake times", checkFaceShake(results[0]).toString())
+            if (checkFaceShake(results[0]) && (isShake <= shakeTimes!!.toInt())) {
+                isShake++
+                shouldRandom = true
+                hasShake = false
+                hasStraight = false
+            } else {
+                shouldRandom = false
+            }
         }
-        Log.i("isNormal", isNormal.toString())
 
         // normal face detect and shake detected and will request smile
-        if (results.isNotEmpty() && !sending && isNormal && isShake) {
+        if (results.isNotEmpty() && !sending && isNormal && (isShake == shakeTimes!!.toInt())) {
+            arrowImage.visibility = View.INVISIBLE
             actionRequest.text = "กรุณายิ้มอ่อน"
             isSmile = (results[0].smilingProbability ?: 0f) >= 0.9f
         }
@@ -113,24 +148,28 @@ class FaceContourDetectionProcessor(
         Log.i("Action3", isShake.toString())
         Log.i("Action4", isSmile.toString())
 
-        if (results.isNotEmpty() && !sending && isNormal && isShake && isSmile) {
+        if (results.isNotEmpty() && !sending && isNormal && (isShake == shakeTimes!!.toInt()) && isSmile) {
             sending = true
             isNormal = false
-            isShake = false
+            isShake = 0
             isSmile = false
-            hasShakeToLeft = false
-            hasShakeToRight = false
+            hasStraight = false
+            hasShake = false
+            shouldRandom = true
+            arrowImage.visibility = View.INVISIBLE
             croppedDetectedFaceAndVerified(bitmap!!, results)
         } else if (results.isEmpty()) {
             sending = false
             isNormal = false
-            isShake = false
+            isShake = 0
             isSmile = false
-            hasShakeToLeft = false
-            hasShakeToRight = false
+            hasStraight = false
+            hasShake = false
+            shouldRandom = true
             actionRequest.text = ""
             authInfoTextView.text = ""
             authStatusTextView.text = ""
+            arrowImage.visibility = View.INVISIBLE
         }
 
         graphicOverlay.postInvalidate()
@@ -187,15 +226,69 @@ class FaceContourDetectionProcessor(
         return Base64.encodeToString(b, Base64.NO_WRAP)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun checkFaceShake(face: Face): Boolean {
-        val angle = face.headEulerAngleY
-        if (angle > shakeThreshold && !hasShakeToLeft) {
-            hasShakeToLeft = true
-        } else if (angle < -shakeThreshold && !hasShakeToRight) {
-            hasShakeToRight = true
+        val horizontalAngle = face.headEulerAngleY
+        val verticalAngle = face.headEulerAngleX
+        if (shouldRandom) {
+            while(true){
+                val randomInt = Random.nextInt(1, 5)
+                Log.i("random", randomInt.toString())
+                if (randomInt != shakeDirection){
+                    shakeDirection = randomInt
+                    break
+                }
+            }
+            shouldRandom = false
         }
-        Log.i("Shake", angle.toString())
-        return hasShakeToLeft || hasShakeToRight
+        actionRequest.text = "กรุณาส่ายหน้าตามลูกศร"
+        arrowImage.visibility = View.VISIBLE
+        when(shakeDirection) {
+            1 -> {
+                arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_up))
+                checkFaceStraight(horizontalAngle, verticalAngle)
+                if (verticalAngle > verticalShakeThreshold) {
+                    hasShake = true
+                }
+            }
+            2 -> {
+                arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_down))
+                checkFaceStraight(horizontalAngle, verticalAngle)
+                if (verticalAngle < -verticalShakeThreshold) {
+                    hasShake = true
+                }
+            }
+            3 -> {
+                arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_right))
+                checkFaceStraight(horizontalAngle, verticalAngle)
+                if (horizontalAngle < -horizontalShakeThreshold) {
+                    hasShake = true
+                }
+            }
+            4 -> {
+                arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_left))
+                checkFaceStraight(horizontalAngle, verticalAngle)
+                if (horizontalAngle > horizontalShakeThreshold) {
+                    hasShake = true
+                }
+            }
+        }
+
+        Log.i("horizontalAngle", horizontalAngle.toString())
+        Log.i("verticalAngle", verticalAngle.toString())
+        return hasShake && hasStraight
+    }
+
+    private fun checkFaceStraight(horizontalAngle: Float, verticalAngle: Float) {
+        if (-straightThreshold <= verticalAngle && verticalAngle <= straightThreshold && -straightThreshold <= horizontalAngle && horizontalAngle <= straightThreshold) {
+            hasStraight = true
+        }
+    }
+
+    private fun adjustScreenBrightness(brightness: Float) {
+        val layoutParams = window.attributes
+        layoutParams.screenBrightness = brightness
+        window.attributes = layoutParams
     }
 
     override fun onFailure(e: Exception) {
@@ -206,11 +299,15 @@ class FaceContourDetectionProcessor(
         private const val TAG = "FaceDetectorProcessor"
         private var sending = false
         private var isNormal = false
-        private var isShake = false
+        private var isShake = 0
         private var isSmile = false
-        private const val shakeThreshold = 35f
-        private var hasShakeToLeft = false
-        private var hasShakeToRight = false
+        private var shouldRandom = true
+        private var shakeDirection = 1
+        private const val horizontalShakeThreshold = 20f
+        private const val verticalShakeThreshold = 15f
+        private const val straightThreshold = 10f
+        private var hasStraight = false
+        private var hasShake = false
     }
 
 }
