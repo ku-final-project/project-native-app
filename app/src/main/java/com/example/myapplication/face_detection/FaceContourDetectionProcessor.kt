@@ -122,10 +122,10 @@ class FaceContourDetectionProcessor(
         Log.i("config", shakeTimes.toString())
         // normal face detected and will request shake for SHAKE_TIMES
         Log.i("shake times", isShake.toString())
-        Log.i("shake times", shouldRandom.toString())
+        Log.i("random", shouldRandom.toString())
 
         if (results.isNotEmpty() && !sending && isNormal) {
-            Log.i("shake times", checkFaceShake(results[0]).toString())
+            Log.i("checkFaceShake", checkFaceShake(results[0]).toString())
             if (checkFaceShake(results[0]) && (isShake <= shakeTimes!!.toInt())) {
                 isShake++
                 shouldRandom = true
@@ -233,7 +233,7 @@ class FaceContourDetectionProcessor(
         if (shouldRandom) {
             while(true){
                 val randomInt = Random.nextInt(1, 5)
-                Log.i("random", randomInt.toString())
+//                Log.i("random", randomInt.toString())
                 if (randomInt != shakeDirection){
                     shakeDirection = randomInt
                     break
@@ -248,28 +248,56 @@ class FaceContourDetectionProcessor(
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_up))
                 checkFaceStraight(horizontalAngle, verticalAngle)
                 if (verticalAngle > verticalShakeThreshold) {
+                    authStatusTextView.text = ""
                     hasShake = true
+                }
+                else if(hasStraight && (verticalAngle < -verticalShakeThreshold || horizontalAngle < -horizontalShakeThreshold || horizontalAngle > horizontalShakeThreshold)) {
+                    Log.i("invalid_shake", "invalid_shake")
+                    authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
+                    authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                    isShake = 0
                 }
             }
             2 -> {
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_down))
                 checkFaceStraight(horizontalAngle, verticalAngle)
                 if (verticalAngle < -verticalShakeThreshold) {
+                    authStatusTextView.text = ""
                     hasShake = true
+                }
+                else if(hasStraight && (verticalAngle > verticalShakeThreshold || horizontalAngle < -horizontalShakeThreshold || horizontalAngle > horizontalShakeThreshold)) {
+                    Log.i("invalid_shake", "invalid_shake")
+                    authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
+                    authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                    isShake = 0
                 }
             }
             3 -> {
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_right))
                 checkFaceStraight(horizontalAngle, verticalAngle)
                 if (horizontalAngle < -horizontalShakeThreshold) {
+                    authStatusTextView.text = ""
                     hasShake = true
+                }
+                else if(hasStraight && (verticalAngle < -verticalShakeThreshold || verticalAngle > verticalShakeThreshold || horizontalAngle > horizontalShakeThreshold)) {
+                    Log.i("invalid_shake", "invalid_shake")
+                    authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
+                    authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                    isShake = 0
                 }
             }
             4 -> {
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_left))
                 checkFaceStraight(horizontalAngle, verticalAngle)
                 if (horizontalAngle > horizontalShakeThreshold) {
+                    authStatusTextView.text = ""
                     hasShake = true
+                }
+                else if(hasStraight && (verticalAngle < -verticalShakeThreshold || verticalAngle > verticalShakeThreshold || horizontalAngle < -horizontalShakeThreshold)) {
+                    Log.i("invalid_shake", "invalid_shake")
+                    authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
+                    authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                    isShake = 0
                 }
             }
         }
