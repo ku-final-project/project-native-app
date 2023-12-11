@@ -255,6 +255,8 @@ class FaceContourDetectionProcessor(
                     Log.i("invalid_shake", "invalid_shake")
                     authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
                     authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                    shouldRandom = true
+                    hasStraight = false
                     isShake = 0
                 }
             }
@@ -269,6 +271,8 @@ class FaceContourDetectionProcessor(
                     Log.i("invalid_shake", "invalid_shake")
                     authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
                     authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                    shouldRandom = true
+                    hasStraight = false
                     isShake = 0
                 }
             }
@@ -283,6 +287,8 @@ class FaceContourDetectionProcessor(
                     Log.i("invalid_shake", "invalid_shake")
                     authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
                     authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                    shouldRandom = true
+                    hasStraight = false
                     isShake = 0
                 }
             }
@@ -297,6 +303,8 @@ class FaceContourDetectionProcessor(
                     Log.i("invalid_shake", "invalid_shake")
                     authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
                     authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
+                    shouldRandom = true
+                    hasStraight = false
                     isShake = 0
                 }
             }
