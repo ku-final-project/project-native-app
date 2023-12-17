@@ -16,6 +16,15 @@ class ApiService(private val context: Context){
             .body
         Log.i("Webb API", result.toString())
     }
+    fun unlockDoor(){
+        val web = Webb.create()
+        val config: SharedPreferences? = context.getSharedPreferences("config", AppCompatActivity.MODE_PRIVATE)
+        val ipMCU = config?.getString("IP_MCU", "")
+        val result = web.get("http://${ipMCU}/open-door")
+            .ensureSuccess()
+            .asString()
+        Log.i("Door Web server: ", result.toString())
+    }
     fun webbPostImage(pic:String, face_id:String): JSONObject? {
         val config: SharedPreferences? = context.getSharedPreferences("config", AppCompatActivity.MODE_PRIVATE)
         val apiUrl = config?.getString("API_URL", "")

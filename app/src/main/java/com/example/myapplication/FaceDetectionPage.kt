@@ -22,6 +22,10 @@ import kotlinx.android.synthetic.main.face_detection_page.config_button
 import kotlinx.android.synthetic.main.face_detection_page.graphicOverlay_finder
 import kotlinx.android.synthetic.main.face_detection_page.previewView_finder
 import kotlinx.android.synthetic.main.face_detection_page.serial_button
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FaceDetectionPage : AppCompatActivity() {
 
@@ -48,6 +52,10 @@ class FaceDetectionPage : AppCompatActivity() {
         usb.startUsbConnecting()
         // Send Serial
         serial_button.setOnClickListener{
+            val scope = CoroutineScope(Dispatchers.IO + CoroutineName("MyScope"))
+            scope.launch(Dispatchers.IO) {
+                apiService.unlockDoor()
+            }
             usb.sendData("unlock")
         }
         // API Service--------------------------------------------------------------------------------------------

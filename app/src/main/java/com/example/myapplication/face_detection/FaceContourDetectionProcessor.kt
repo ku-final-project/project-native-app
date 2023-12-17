@@ -208,6 +208,7 @@ class FaceContourDetectionProcessor(
                         authStatusTextView.text = response["status"].toString()
                         authStatusTextView.setTextColor(Color.parseColor("#008000"))
                         authInfoTextView.setTextColor(Color.parseColor("#008000"))
+                        api.unlockDoor()
                         usb.sendData("unlock")
                     } else {
                         authStatusTextView.text = response["status"].toString()

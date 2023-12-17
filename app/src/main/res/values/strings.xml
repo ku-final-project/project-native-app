@@ -18,4 +18,8 @@
     <string name="delay_sleep_times">Delay sleep time when no face detected</string>
     <string name="delay_sleep_times_input">Delay sleep time</string>
     <string name="save">Save</string>
+    <string name="ip_mcu_text">IP of microcontroller</string>
+    <string name="hint_ip_address">192.168.1.99</string>
+
+
 </resources>
