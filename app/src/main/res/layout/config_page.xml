@@ -65,59 +65,31 @@
         app:layout_constraintVertical_bias="0.066" />
 
     <EditText
-        android:id="@+id/shakeTimesInput"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="36dp"
-        android:ems="10"
-        android:hint="@string/shake_times"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.61"
-        tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
-
-    <EditText
-        android:id="@+id/delaySleepTimeInput"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="36dp"
-        android:ems="10"
-        android:hint="@string/delay_sleep_times_input"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.772"
-        tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
-
-    <EditText
         android:id="@+id/ipMCUInput"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="44dp"
         android:ems="10"
         android:hint="@string/hint_ip_address"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.898"
+        app:layout_constraintVertical_bias="0.729"
         tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
 
     <EditText
-        android:id="@+id/eventIdInput"
+        android:id="@+id/shakeTimesInput"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="44dp"
         android:ems="10"
-        android:hint="@string/event_id"
+        android:hint="@string/shake_times"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.444"
+        app:layout_constraintVertical_bias="0.441"
         tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
 
     <TextView
@@ -128,10 +100,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintHorizontal_bias="0.117"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.688" />
+        app:layout_constraintVertical_bias="0.522" />
 
     <TextView
         android:id="@+id/ipMCUText"
@@ -141,10 +113,37 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintHorizontal_bias="0.135"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.83" />
+        app:layout_constraintVertical_bias="0.667" />
+
+    <TextView
+        android:id="@+id/shakeTimes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/shake_times"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.104"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.369" />
+
+    <EditText
+        android:id="@+id/delaySleepTimeInput"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="44dp"
+        android:ems="10"
+        android:hint="@string/delay_sleep_times_input"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.603"
+        tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
 
     <TextView
         android:id="@+id/token"
@@ -158,32 +157,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.218" />
-
-    <TextView
-        android:id="@+id/shakeTimes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/shake_times"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.532" />
-
-    <TextView
-        android:id="@+id/eventId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/event_id"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.375" />
 
     <EditText
         android:id="@+id/tokenInput"

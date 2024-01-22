@@ -110,7 +110,7 @@ class FaceContourDetectionProcessor(
             }
         } else {
             lastFaceDetectedTime = System.currentTimeMillis()
-            adjustScreenBrightness(0.1f)
+            adjustScreenBrightness(1.0f)
         }
 
         // normal face detect
@@ -136,23 +136,14 @@ class FaceContourDetectionProcessor(
             }
         }
 
-        // normal face detect and shake detected and will request smile
-        if (results.isNotEmpty() && !sending && isNormal && (isShake == shakeTimes!!.toInt())) {
-            arrowImage.visibility = View.INVISIBLE
-            actionRequest.text = "กรุณายิ้มอ่อน"
-            isSmile = (results[0].smilingProbability ?: 0f) >= 0.9f
-        }
-
         Log.i("Action1", sending.toString())
         Log.i("Action2", isNormal.toString())
         Log.i("Action3", isShake.toString())
-        Log.i("Action4", isSmile.toString())
 
-        if (results.isNotEmpty() && !sending && isNormal && (isShake == shakeTimes!!.toInt()) && isSmile) {
+        if (results.isNotEmpty() && !sending && isNormal && (isShake == shakeTimes!!.toInt())) {
             sending = true
             isNormal = false
             isShake = 0
-            isSmile = false
             hasStraight = false
             hasShake = false
             shouldRandom = true
@@ -162,7 +153,6 @@ class FaceContourDetectionProcessor(
             sending = false
             isNormal = false
             isShake = 0
-            isSmile = false
             hasStraight = false
             hasShake = false
             shouldRandom = true
@@ -193,7 +183,6 @@ class FaceContourDetectionProcessor(
 //        Log.i("CroppedBase64", encodeImage(croppedBitmap).toString())
 //        Log.i("OriginalBase64", encodeImage(bitmap).toString())
         // Send API
-        Log.i("Smile", results[0].smilingProbability.toString())
         if (sending) {
             scope.launch(Dispatchers.IO) {
                 Log.i("ImageSend", "send image to api url")
@@ -337,7 +326,6 @@ class FaceContourDetectionProcessor(
         private var sending = false
         private var isNormal = false
         private var isShake = 0
-        private var isSmile = false
         private var shouldRandom = true
         private var shakeDirection = 1
         private const val horizontalShakeThreshold = 20f
