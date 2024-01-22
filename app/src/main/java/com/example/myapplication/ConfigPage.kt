@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import kotlinx.android.synthetic.main.config_page.apiUrlInput
 import kotlinx.android.synthetic.main.config_page.delaySleepTimeInput
-import kotlinx.android.synthetic.main.config_page.eventIdInput
 import kotlinx.android.synthetic.main.config_page.ipMCUInput
 import kotlinx.android.synthetic.main.config_page.save_config_button
 import kotlinx.android.synthetic.main.config_page.shakeTimesInput
@@ -43,7 +42,6 @@ class ConfigPage : AppCompatActivity(){
 
         apiUrlInput.text = apiUrl?.toEditable()
         tokenInput.text = token?.toEditable()
-        eventIdInput.text = eventId?.toEditable()
         shakeTimesInput.text = shakeTimes?.toEditable()
         delaySleepTimeInput.text = delaySleepTime?.toEditable()
         ipMCUInput.text = ipMCU?.toEditable()
@@ -51,15 +49,14 @@ class ConfigPage : AppCompatActivity(){
         save_config_button.setOnClickListener{
             editor?.putString("API_URL", apiUrlInput.text.toString())
             editor?.putString("TOKEN", tokenInput.text.toString())
-            editor?.putString("EVENT_ID", eventIdInput.text.toString())
             editor?.putString("SHAKE_TIMES", shakeTimesInput.text.toString())
             editor?.putString("DELAY_SLEEP_TIME", delaySleepTimeInput.text.toString())
             editor?.putString("IP_MCU", ipMCUInput.text.toString())
             val success = editor?.commit()
             if (success == true) {
-                Toast.makeText(this, "success save ${apiUrlInput.text} ${tokenInput.text} ${eventIdInput.text} ${shakeTimesInput.text} ${delaySleepTimeInput.text} ${ipMCUInput.text}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "success save ${apiUrlInput.text} ${tokenInput.text} ${shakeTimesInput.text} ${delaySleepTimeInput.text} ${ipMCUInput.text}", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "fail save ${apiUrlInput.text} ${tokenInput.text} ${eventIdInput.text} ${shakeTimesInput.text} ${delaySleepTimeInput.text} ${ipMCUInput.text}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "fail save ${apiUrlInput.text} ${tokenInput.text} ${shakeTimesInput.text} ${delaySleepTimeInput.text} ${ipMCUInput.text}", Toast.LENGTH_SHORT).show()
             }
         }
     }
