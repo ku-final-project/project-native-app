@@ -37,20 +37,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.018" />
 
-    <EditText
-        android:id="@+id/apiUrlInput"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="36dp"
-        android:ems="10"
-        android:hint="@string/api_url"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.124"
-        tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
-
     <TextView
         android:id="@+id/apiUrl"
         android:layout_width="wrap_content"
@@ -62,87 +48,20 @@
         app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.066" />
+        app:layout_constraintVertical_bias="0.107" />
 
     <EditText
-        android:id="@+id/ipMCUInput"
+        android:id="@+id/apiUrlInput"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="36dp"
         android:ems="10"
-        android:hint="@string/hint_ip_address"
+        android:hint="@string/api_url"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.729"
-        tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
-
-    <EditText
-        android:id="@+id/shakeTimesInput"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="44dp"
-        android:ems="10"
-        android:hint="@string/shake_times"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441"
-        tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
-
-    <TextView
-        android:id="@+id/delaySleepTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delay_sleep_times"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.117"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.522" />
-
-    <TextView
-        android:id="@+id/ipMCUText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ip_mcu_text"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.135"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.667" />
-
-    <TextView
-        android:id="@+id/shakeTimes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/shake_times"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.369" />
-
-    <EditText
-        android:id="@+id/delaySleepTimeInput"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="44dp"
-        android:ems="10"
-        android:hint="@string/delay_sleep_times_input"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.603"
+        app:layout_constraintVertical_bias="0.161"
         tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
 
     <TextView
@@ -156,7 +75,7 @@
         app:layout_constraintHorizontal_bias="0.103"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.218" />
+        app:layout_constraintVertical_bias="0.254" />
 
     <EditText
         android:id="@+id/tokenInput"
@@ -169,7 +88,82 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.28"
+        app:layout_constraintVertical_bias="0.317"
+        tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
+
+    <TextView
+        android:id="@+id/ipMCUText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ip_mcu_text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.677" />
+
+    <TextView
+        android:id="@+id/delaySleepTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delay_sleep_times"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.535" />
+
+    <Spinner
+        android:id="@+id/shakeTimesDropDown"
+        android:layout_width="291dp"
+        android:layout_height="22dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.464" />
+
+    <Spinner
+        android:id="@+id/delaySleepTimeDropDown"
+        android:layout_width="291dp"
+        android:layout_height="22dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.586" />
+
+    <TextView
+        android:id="@+id/shakeTimes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/shake_times"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.404" />
+
+    <EditText
+        android:id="@+id/ipMCUInput"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:ems="10"
+        android:hint="@string/hint_ip_address"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.756"
         tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields" />
 
     <Button

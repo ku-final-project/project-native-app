@@ -37,7 +37,8 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import kotlin.math.max
 import kotlin.random.Random
-
+import android.media.MediaPlayer
+import android.net.Uri
 
 @ExperimentalGetImage
 class FaceContourDetectionProcessor(
@@ -128,6 +129,8 @@ class FaceContourDetectionProcessor(
             Log.i("checkFaceShake", checkFaceShake(results[0]).toString())
             if (checkFaceShake(results[0]) && (isShake <= shakeTimes!!.toInt())) {
                 isShake++
+                authStatusTextView.setTextColor(Color.parseColor("#000000"))
+                authStatusTextView.text = "ส่ายหน้าไปแล้ว $isShake / $shakeTimes"
                 shouldRandom = true
                 hasShake = false
                 hasStraight = false
@@ -223,9 +226,9 @@ class FaceContourDetectionProcessor(
         if (shouldRandom) {
             while(true){
                 val randomInt = Random.nextInt(1, 5)
-//                Log.i("random", randomInt.toString())
                 if (randomInt != shakeDirection){
                     shakeDirection = randomInt
+                    Log.i("random", randomInt.toString())
                     break
                 }
             }
@@ -237,12 +240,14 @@ class FaceContourDetectionProcessor(
             1 -> {
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_up))
                 checkFaceStraight(horizontalAngle, verticalAngle)
-                if (verticalAngle > verticalShakeThreshold) {
+                if (hasStraight && verticalAngle > verticalShakeThreshold) {
+                    playSound(true)
                     authStatusTextView.text = ""
                     hasShake = true
                 }
                 else if(hasStraight && (verticalAngle < -verticalShakeThreshold || horizontalAngle < -horizontalShakeThreshold || horizontalAngle > horizontalShakeThreshold)) {
                     Log.i("invalid_shake", "invalid_shake")
+                    playSound(false)
                     authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
                     authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
                     shouldRandom = true
@@ -253,12 +258,14 @@ class FaceContourDetectionProcessor(
             2 -> {
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_down))
                 checkFaceStraight(horizontalAngle, verticalAngle)
-                if (verticalAngle < -verticalShakeThreshold) {
+                if (hasStraight && verticalAngle < -verticalShakeThreshold) {
+                    playSound(true)
                     authStatusTextView.text = ""
                     hasShake = true
                 }
                 else if(hasStraight && (verticalAngle > verticalShakeThreshold || horizontalAngle < -horizontalShakeThreshold || horizontalAngle > horizontalShakeThreshold)) {
                     Log.i("invalid_shake", "invalid_shake")
+                    playSound(false)
                     authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
                     authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
                     shouldRandom = true
@@ -269,12 +276,14 @@ class FaceContourDetectionProcessor(
             3 -> {
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_right))
                 checkFaceStraight(horizontalAngle, verticalAngle)
-                if (horizontalAngle < -horizontalShakeThreshold) {
+                if (hasStraight && horizontalAngle < -horizontalShakeThreshold) {
+                    playSound(true)
                     authStatusTextView.text = ""
                     hasShake = true
                 }
                 else if(hasStraight && (verticalAngle < -verticalShakeThreshold || verticalAngle > verticalShakeThreshold || horizontalAngle > horizontalShakeThreshold)) {
                     Log.i("invalid_shake", "invalid_shake")
+                    playSound(false)
                     authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
                     authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
                     shouldRandom = true
@@ -285,12 +294,14 @@ class FaceContourDetectionProcessor(
             4 -> {
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_left))
                 checkFaceStraight(horizontalAngle, verticalAngle)
-                if (horizontalAngle > horizontalShakeThreshold) {
+                if (hasStraight && horizontalAngle > horizontalShakeThreshold) {
+                    playSound(true)
                     authStatusTextView.text = ""
                     hasShake = true
                 }
                 else if(hasStraight && (verticalAngle < -verticalShakeThreshold || verticalAngle > verticalShakeThreshold || horizontalAngle < -horizontalShakeThreshold)) {
                     Log.i("invalid_shake", "invalid_shake")
+                    playSound(false)
                     authStatusTextView.text = "หันผิดทาง กรุณาเริ่มใหม่"
                     authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
                     shouldRandom = true
@@ -317,6 +328,19 @@ class FaceContourDetectionProcessor(
         window.attributes = layoutParams
     }
 
+    private fun playSound(correct: Boolean) {
+        val sound = if (correct) R.raw.correct_sound_effect else R.raw.wrong_sound_effect
+
+        CoroutineScope(Dispatchers.IO + CoroutineName("MyScope")).launch {
+            val mediaPlayer = MediaPlayer()
+
+            mediaPlayer.setDataSource(ctx, Uri.parse("android.resource://" + ctx.packageName + "/" + sound))
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+            Thread.sleep(500)
+        }
+    }
+
     override fun onFailure(e: Exception) {
         Log.w(TAG, "Face Detector failed.$e")
     }
@@ -329,7 +353,7 @@ class FaceContourDetectionProcessor(
         private var shouldRandom = true
         private var shakeDirection = 1
         private const val horizontalShakeThreshold = 20f
-        private const val verticalShakeThreshold = 15f
+        private const val verticalShakeThreshold = 10f
         private const val straightThreshold = 10f
         private var hasStraight = false
         private var hasShake = false
