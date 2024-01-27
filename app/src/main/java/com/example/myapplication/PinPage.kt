@@ -56,7 +56,7 @@ class PinPage : AppCompatActivity() {
                     startActivity(intent)
                     Animatoo.animateSlideLeft(this)
                 } else {
-                    Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Invalid password", Toast.LENGTH_SHORT).show()
                 }
             }
         }

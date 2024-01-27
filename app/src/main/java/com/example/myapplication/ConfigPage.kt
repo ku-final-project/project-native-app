@@ -48,12 +48,12 @@ class ConfigPage : AppCompatActivity() {
         tokenInput.text = token?.toEditable()
         ipMCUInput.text = ipMCU?.toEditable()
 
-        val shakeTimesList = listOf("0", "1", "2", "3", "4", "5")
+        val shakeTimesList = listOf("1", "2", "3", "4", "5")
         var newShakeTimes = ""
         val shakeTimesadapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, shakeTimesList)
         shakeTimesadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         shakeTimesDropDown.adapter = shakeTimesadapter
-        shakeTimesDropDown.setSelection(shakeTimes!!.toInt())
+        shakeTimesDropDown.setSelection(shakeTimes!!.toInt() - 1)
         shakeTimesDropDown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 newShakeTimes = parent?.getItemAtPosition(position).toString()

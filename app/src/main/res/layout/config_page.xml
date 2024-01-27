@@ -84,7 +84,7 @@
         android:layout_marginStart="36dp"
         android:ems="10"
         android:hint="@string/token"
-        android:inputType="text"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

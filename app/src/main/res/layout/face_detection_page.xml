@@ -68,6 +68,7 @@
         android:backgroundTint="@color/button_color"
         android:text="@string/send_serial"
         android:textAllCaps="false"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.905"

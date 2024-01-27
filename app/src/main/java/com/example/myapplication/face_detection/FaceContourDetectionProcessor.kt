@@ -143,15 +143,24 @@ class FaceContourDetectionProcessor(
         Log.i("Action2", isNormal.toString())
         Log.i("Action3", isShake.toString())
 
+        if (results.isNotEmpty()) {
+            val horizontalAngle = results[0].headEulerAngleY
+            val verticalAngle = results[0].headEulerAngleX
+            checkFaceStraight(horizontalAngle, verticalAngle)
+        }
+
         if (results.isNotEmpty() && !sending && isNormal && (isShake == shakeTimes!!.toInt())) {
-            sending = true
-            isNormal = false
-            isShake = 0
-            hasStraight = false
-            hasShake = false
-            shouldRandom = true
             arrowImage.visibility = View.INVISIBLE
-            croppedDetectedFaceAndVerified(bitmap!!, results)
+            if (hasStraight){
+                sending = true
+                isNormal = false
+                isShake = 0
+                hasStraight = false
+                hasShake = false
+                shouldRandom = true
+                croppedDetectedFaceAndVerified(bitmap!!, results)
+            }
+
         } else if (results.isEmpty()) {
             sending = false
             isNormal = false
@@ -195,15 +204,16 @@ class FaceContourDetectionProcessor(
                 )
                 Log.i("Response", response!!["status"].toString())
                 withContext(Dispatchers.Main) {
-                    authInfoTextView.text = "นายภราดร วัชรเสมากุล"
+                    authInfoTextView.text = ""
                     if (response["status"] as Boolean) {
-                        authStatusTextView.text = response["status"].toString()
+                        authStatusTextView.text = "การยืนยันใบหน้าถูกต้อง"
+                        actionRequest.text = ""
                         authStatusTextView.setTextColor(Color.parseColor("#008000"))
                         authInfoTextView.setTextColor(Color.parseColor("#008000"))
                         api.unlockDoor()
-                        usb.sendData("unlock")
+//                        usb.sendData("unlock")
                     } else {
-                        authStatusTextView.text = response["status"].toString()
+                        authStatusTextView.text = "การยืนยันใบหน้าผิดพลาด"
                         authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
                         authInfoTextView.setTextColor(Color.parseColor("#FF0000"))
                     }
@@ -234,8 +244,10 @@ class FaceContourDetectionProcessor(
             }
             shouldRandom = false
         }
+
         actionRequest.text = "กรุณาส่ายหน้าตามลูกศร"
         arrowImage.visibility = View.VISIBLE
+
         when(shakeDirection) {
             1 -> {
                 arrowImage.setImageDrawable(ctx.getDrawable(R.drawable.arrow_up))
