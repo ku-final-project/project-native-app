@@ -214,6 +214,7 @@ class FaceContourDetectionProcessor(
 //                        usb.sendData("unlock")
                     } else {
                         authStatusTextView.text = "การยืนยันใบหน้าผิดพลาด"
+                        actionRequest.text = ""
                         authStatusTextView.setTextColor(Color.parseColor("#FF0000"))
                         authInfoTextView.setTextColor(Color.parseColor("#FF0000"))
                     }
