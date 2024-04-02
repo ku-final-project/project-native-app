@@ -85,3 +85,6 @@ app/src/main/res
 
 ##### values
 - Use to set constant value that use in application such as colors, words.
+
+### Log
+- Use logcat to see the log that I add in some parts of code.
