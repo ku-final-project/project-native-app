@@ -31,8 +31,8 @@ app/src/main/java/com/example/myapplication/
 ```
 app/src/main/res
 ├── drawable
-│         ├── arrow_down.png
-│         ├── arrow_left.png
+│   ├── arrow_down.png
+│   ├── arrow_left.png
 │   ├── arrow_right.png
 │   ├── arrow_up.png
 │   └── ku_logo.png
